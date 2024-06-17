@@ -42,20 +42,19 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     var chatId = message.Chat.Id;
 
     Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
-    Message sentMessage = await botClient.SendTextMessageAsync(chatId: chatId, text: "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует", cancellationToken: cancellationToken);
-
-    object value = await HandleUpdateAsync(message.Chat.Id, IReplyMarkup: GetChatMenuButtonRequest());
-    return new ReplyKeyboardMarkup()
-    } Keyboard = new List<List<KeyboardButton>>
-                {
-                    new List<KeyboardButton>
-                    { new KeyboardButton("Привет")
-                    }
-                },
-
-
-
-    };
+    Message sentMessage = await botClient.SendTextMessageAsync( 
+        chatId: chatId, 
+        text: "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует?", 
+        cancellationToken: cancellationToken,
+        replyToMessageId: update.Message.MessageId,
+        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(text: "Check sendMessage method", url: "https://core.telegram.org/bots/api#sendmessage"))
+        );
+//Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует? parseMode: ParseMode.MarkdownV2;
+//disableNotification: false;
+//replyToMessageId: update.Message.MessageId;
+//replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(text: "Check sendMessage method", url: "https://core.telegram.org/bots/api#sendmessage"));
+//cancellationToken: cancellationToken)
+ 
     Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
         var ErrorMessage = exception switch
