@@ -40,21 +40,43 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
         return;
 
     var chatId = message.Chat.Id;
+     var action = messageText.Split(' ')[0] switch
+        {
+            "/schedule" => SendSchedule(botClient, message, cancellationToken),
+            
+        };
+        Message sentMessage = await action;
+        
 
     Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
-    Message sentMessage = await botClient.SendTextMessageAsync( 
+    /*Message sentMessage = await botClient.SendTextMessageAsync(
         chatId: chatId, 
         text: "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует?", 
         cancellationToken: cancellationToken,
         replyToMessageId: update.Message.MessageId,
         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(text: "Check sendMessage method", url: "https://core.telegram.org/bots/api#sendmessage"))
-        );
+        );*/
 //Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует? parseMode: ParseMode.MarkdownV2;
 //disableNotification: false;
 //replyToMessageId: update.Message.MessageId;
 //replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(text: "Check sendMessage method", url: "https://core.telegram.org/bots/api#sendmessage"));
 //cancellationToken: cancellationToken)
- 
+ static async Task<Message> SendSchedule(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+        {
+            const string usage = "Usage:\n" +
+                                 "/inline_keyboard - send inline keyboard\n" +
+                                 "/keyboard    - send custom keyboard\n" +
+                                 "/remove      - remove custom keyboard\n" +
+                                 "/photo       - send a photo\n" +
+                                 "/request     - request location or contact\n" +
+                                 "/inline_mode - send keyboard with Inline Query";
+
+            return await botClient.SendTextMessageAsync(
+                chatId: message.Chat.Id,
+                text: usage,
+                replyMarkup: new ReplyKeyboardRemove(),
+                cancellationToken: cancellationToken);
+        }
     Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
         var ErrorMessage = exception switch
