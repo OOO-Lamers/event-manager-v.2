@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Source\\Repos\\Lamersi\\BOTV2\\BOTV2\\BOTV2.csproj": {}
+    "C:\\Users\\User\\source\\repos\\OOO-Lamers\\-2\\BOTV2\\BOTV2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Source\\Repos\\Lamersi\\BOTV2\\BOTV2\\BOTV2.csproj": {
+    "C:\\Users\\User\\source\\repos\\OOO-Lamers\\-2\\BOTV2\\BOTV2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Source\\Repos\\Lamersi\\BOTV2\\BOTV2\\BOTV2.csproj",
+        "projectUniqueName": "C:\\Users\\User\\source\\repos\\OOO-Lamers\\-2\\BOTV2\\BOTV2.csproj",
         "projectName": "BOTV2",
-        "projectPath": "C:\\Users\\User\\Source\\Repos\\Lamersi\\BOTV2\\BOTV2\\BOTV2.csproj",
+        "projectPath": "C:\\Users\\User\\source\\repos\\OOO-Lamers\\-2\\BOTV2\\BOTV2.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Source\\Repos\\Lamersi\\BOTV2\\BOTV2\\obj\\",
+        "outputPath": "C:\\Users\\User\\source\\repos\\OOO-Lamers\\-2\\BOTV2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

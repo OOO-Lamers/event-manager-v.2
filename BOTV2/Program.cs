@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using System;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
@@ -40,15 +41,18 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
         return;
 
     var chatId = message.Chat.Id;
-     var action = messageText.Split(' ')[0] switch
-        {
-            "/schedule" => SendSchedule(botClient, message, cancellationToken),
-            
-        };
+    Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
+    var action = messageText.Split(' ')[0] switch
+    {
+        "/schedule" => SendSchedule(botClient, message, cancellationToken),
+        "/register" => SendRegister(botClient, message, cancellationToken),
+        _ => SendWELCOM(botClient, message, cancellationToken)
+
+    };
         Message sentMessage = await action;
         
 
-    Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
+    //Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
     /*Message sentMessage = await botClient.SendTextMessageAsync(
         chatId: chatId, 
         text: "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует?", 
@@ -63,13 +67,7 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 //cancellationToken: cancellationToken)
  static async Task<Message> SendSchedule(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
         {
-            const string usage = "Usage:\n" +
-                                 "/inline_keyboard - send inline keyboard\n" +
-                                 "/keyboard    - send custom keyboard\n" +
-                                 "/remove      - remove custom keyboard\n" +
-                                 "/photo       - send a photo\n" +
-                                 "/request     - request location or contact\n" +
-                                 "/inline_mode - send keyboard with Inline Query";
+        const string usage = "Расписание";
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
@@ -77,6 +75,31 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
                 replyMarkup: new ReplyKeyboardRemove(),
                 cancellationToken: cancellationToken);
         }
+    static async Task<Message> SendWELCOM(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+    {
+        const string usage = "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует?\n" +
+                             "Вот что я умею:\n" +
+                             "/      - send custom keyboard\n" +
+                             "/      - remove custom keyboard\n" +
+                             "/      - send a photo\n" +
+                             "/      - request location or contact\n" +
+                             "/      - send keyboard with Inline Query";
+
+        return await botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: usage,
+            replyMarkup: new ReplyKeyboardRemove(),
+            cancellationToken: cancellationToken);
+    }
+    static async Task<Message> SendRegister(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+    { 
+
+        return await botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует?",
+            cancellationToken: cancellationToken
+            );
+    }
     Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
         var ErrorMessage = exception switch
