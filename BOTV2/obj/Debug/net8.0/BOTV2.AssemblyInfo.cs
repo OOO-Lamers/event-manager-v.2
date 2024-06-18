@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BOTV2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+505b1b6a30a128562e2e1f2c6fb1c7ba27a7b587")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+97c646b049bf5b5fcd537655d98aeef9183e30bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("BOTV2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BOTV2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
