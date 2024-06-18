@@ -74,7 +74,16 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: usage,
+               text: "Хотите записться на трениг/обучение?" +
+            "\n" +
+            "На какое меропритяи вы бы хотели записаться:\n" +
+            "\n" +
+            "1.Тренинг на тему эмоциональный интеллект\n" +
+            "16.10 в 18:00\n" +
+            "\n" +
+            "2.Обучение на тему 'SCRUM'\n" +
+            "20.10 в 19:00\n\n" + 
+            "Чтобы записаться, отправьте /register 1 или /register 2",
                 replyMarkup: new ReplyKeyboardRemove(),
                 cancellationToken: cancellationToken);
         }
@@ -102,19 +111,29 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
             cancellationToken: cancellationToken);
     }
     static async Task<Message> SendRegister(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
-    { 
+    {
+        var messagePart = message.Text.Split(' ');
+        var TrainingID = "";
+        if
+            (messagePart.Length > 1)
+            {
+            TrainingID = message.Text.Split(' ')[1];
+        }
+        if (TrainingID == "")
+        {
+            return await botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: "Вы не передали номер события");
+        }
+            
+        
+        var Response = await botClient.SendTextMessageAsync(
+            chatId: 437637599,
+            text: "Пользователь записался на событие " + TrainingID);
 
         return await botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Хотите записться на трениг/обучение?"+
-            "\n"+
-            "На какое меропритяи вы бы хотели записаться:\n"+
-            "\n"+
-            "Тренинг на тему эмоциональный интеллект\n" +
-            "16.10 в 18:00\n"+
-            "\n"+
-            "Обучение на тему 'SCRUM'\n" +
-            "20.10 в 19:00",
+            text: "Вы записаны",
             cancellationToken: cancellationToken);
     }
     static async Task<Message> SendComment(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
@@ -122,8 +141,8 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 
         return await botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Хотите оставить свое предложение по развитию копоративный культуры?\n" +
-            "Напишите, пожалуйста, что бы хотели улучшить/предложть/изменить", 
+            text: "Хотите оставить свое предложение по развитию корпоративный культуры?\n" +
+            "Напишите, пожалуйста, что бы Вы хотели улучшить/предложть/изменить", 
             cancellationToken: cancellationToken
             );
             
