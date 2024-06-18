@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
@@ -46,6 +47,8 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     {
         "/schedule" => SendSchedule(botClient, message, cancellationToken),
         "/register" => SendRegister(botClient, message, cancellationToken),
+        "/comment" => SendComment(botClient, message, cancellationToken),
+        "/study" => SendStudy(botClient, message, cancellationToken),
         _ => SendWELCOM(botClient, message, cancellationToken)
 
     };
@@ -60,11 +63,11 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
         replyToMessageId: update.Message.MessageId,
         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(text: "Check sendMessage method", url: "https://core.telegram.org/bots/api#sendmessage"))
         );*/
-//Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует? parseMode: ParseMode.MarkdownV2;
-//disableNotification: false;
-//replyToMessageId: update.Message.MessageId;
-//replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(text: "Check sendMessage method", url: "https://core.telegram.org/bots/api#sendmessage"));
-//cancellationToken: cancellationToken)
+ //Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует? parseMode: ParseMode.MarkdownV2;
+ //disableNotification: false;
+ //replyToMessageId: update.Message.MessageId;
+ //replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(text: "Check sendMessage method", url: "https://core.telegram.org/bots/api#sendmessage"));
+ //cancellationToken: cancellationToken)
  static async Task<Message> SendSchedule(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
         {
         const string usage = "Расписание";
@@ -79,11 +82,18 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     {
         const string usage = "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует?\n" +
                              "Вот что я умею:\n" +
-                             "/      - send custom keyboard\n" +
-                             "/      - remove custom keyboard\n" +
-                             "/      - send a photo\n" +
-                             "/      - request location or contact\n" +
-                             "/      - send keyboard with Inline Query";
+                             "\n" +
+                             "/register   \n" +
+                             "Записаться на треининнг/обучение\n" +
+                             "\n" +
+                             "/schedule   \n" +
+                             "Узнать расписание активностей\n" +
+                             "\n" +
+                             "/comment    \n" +
+                             "Оставить свой комментарий и предложенние  по развитию корпоративной культуры\n" +
+                             "\n" +
+                             "/study      \n" +
+                             "Предложить обучение/запросить тему для обучение\n";
 
         return await botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
@@ -96,9 +106,46 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 
         return await botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Приветсвую вас, Это бот-помощник по вопросам активностей и коммуникации. Что вас интересует?",
+            text: "Хотите записться на трениг/обучение?"+
+            "\n"+
+            "На какое меропритяи вы бы хотели записаться:\n"+
+            "\n"+
+            "Тренинг на тему эмоциональный интеллект\n" +
+            "16.10 в 18:00\n"+
+            "\n"+
+            "Обучение на тему 'SCRUM'\n" +
+            "20.10 в 19:00",
+            cancellationToken: cancellationToken);
+    }
+    static async Task<Message> SendComment(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+    {
+
+        return await botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: "Хотите оставить свое предложение по развитию копоративный культуры?\n" +
+            "Напишите, пожалуйста, что бы хотели улучшить/предложть/изменить", 
             cancellationToken: cancellationToken
             );
+            
+            //    chatId: message.Chat.Id,
+           //     text: "You said:\n" + messageText,
+           //     cancellationToken: cancellationToken);
+
+
+
+
+    }
+    static async Task<Message> SendStudy(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+    {
+
+        return await botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: "Хотите предложить обучение/запросить тему для обучения?",
+            cancellationToken: cancellationToken
+            );
+
+
+
     }
     Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
